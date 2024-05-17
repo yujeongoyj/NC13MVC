@@ -3,11 +3,11 @@ package model;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class ReplyDTO {
     private int id;
-    private String username;
-    private String password;
-    private String nickname;
+    private String content;
+    private int writerId;
+    private int boardId;
 
     @Override
     public boolean equals(Object o) {
@@ -15,11 +15,10 @@ public class UserDTO {
             return true;
         }
 
-        if (o instanceof UserDTO) {
-            UserDTO u = (UserDTO) o;
-            return id == u.id;
+        if (o instanceof ReplyDTO) {
+            ReplyDTO r = (ReplyDTO) o;
+            return id == r.id;
         }
-
         return false;
     }
 }

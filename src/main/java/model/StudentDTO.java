@@ -12,12 +12,10 @@ package model;
 // 정도의 메소드만 들어간다.
 
 import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-// lombok은 getter/setter, toString() 등 모델 클래스들에게 필요한
+// lombok은 게터/세터, toString() 등 모델 클래스들에게 필요한
 // 기본 메소드를 자동으로 생성해주는 외부 라이브러리다.
 // 필요에 따라서는 우리가 직접 @Getter, @Setter, 등 필요한 것을
-// 골라서 쓸 수도 있지만, @Data 라고 적어주면 모든 기능을 다 활성화시킨다.
+// 골라서 쓸수도 있지만 @Data 라고 적어주면 모든 기능을 다 활성화시킨다.
 
 @Data
 public class StudentDTO {
@@ -28,29 +26,17 @@ public class StudentDTO {
     private int math;
 
     @Override
-    public boolean equals(Object o){
-        if (this == o){
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if(o instanceof StudentDTO){
+
+        if (o instanceof StudentDTO) {
             StudentDTO s = (StudentDTO) o;
             return id == s.id;
         }
+
         return false;
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
