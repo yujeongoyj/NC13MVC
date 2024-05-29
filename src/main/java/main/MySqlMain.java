@@ -21,12 +21,20 @@ public class MySqlMain {
         // 아래와 같이 try/ catch 구조를 사용하여
         // 해당 오류가 발생했을 때 어떻게 처리할 것인지를 적어준다.
         try {
+            // 클라이언트 프로그램에서 DB와 연결하려면 해당 DBMS(mysql)의 JDBC Driver가 필요
+            // Class.forName()메소드는 문자열로 주어진 JDBC Driver클래스를 build path에서 찾고, 메모리로 로딩
+            // 이 과정에서 Driver클래스의 static블록이 실행되면서 DriverManager에 Driver객체를 등록
             Class.forName("com.mysql.cj.jdbc.Driver");
 
+            // 연결에 필요한 네가지 정보 (ip, port, 사용자 DB계정 및 비번, 사용하고자 하는 DB이름)
+            // IP주소는 컴퓨터를 찾아가기 위해, port는 DBMS로 연결하기 위해 필요
             String url = "jdbc:mysql://localhost:3306/board";
             String username = "root";
             String password = "1234";
 
+            // 위 단계에서 DriverManager에 JDBC Driver객체가 등록되면 getConnection()메소드로
+            // DB와 연결할 수 있다.
+            // 연결이 성공하면 getConnection() 메소드는 Connection 객체를 리턴
             Connection connection = DriverManager.getConnection(url, username, password);
 
             System.out.println("connection 성공");
@@ -42,11 +50,14 @@ public class MySqlMain {
 
             // Select 쿼리와 같이 Preparement의 결과가 존재하는 경우,
             // 우리는 그 결과를 ResultSet에 담게 된다.
+            // ResultSet은 select문에 기술된 컬럼으로 구성된 row의 집합 = 데이터베이스 쿼리의 결과
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // resultSet은 우리가 결과를 추출하기 위해서는
             // 반드시 resultSet.next() 라는 것을 통하여
             // 커서의 위치를 while문을 통해서 옮긴다.
+            // 커서의 초기위치는 행 '앞'에 위치하기 때문에 실제 데이터에 접근할 수 없어
+            // -> next()메소드를 통해 다음 행으로 이동시켜줘야 한다.
             while (resultSet.next()) {
                 BoardDTO boardDTO = new BoardDTO();
                 //ResultSet 객체의 현재 위치의 값을 꺼낼 때에는
@@ -116,8 +127,11 @@ public class MySqlMain {
             boardDT2.setTitle("수전된 제목 4번글");
             boardDT2.setContent("이 4번글은 수정되었습니다. ");
 
+            // 값을 물음표로 넣어 매개변수화 시킨 쿼리문
             query = "UPDATE board SET title = ?, content = ?, modify_date = NOW() WHERE id =?";
 
+            // 매개변수화된 SQL문을 실행하려면 PreparedStatement가 필요!!!!!
+            // preparedStatement는 connetcion 객체에서 제공하기 때문에 꼭 connection.preparedStatement
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, boardDT2.getTitle()); // parameterIndex는 '?'자리를 식별하는 순서번호
             preparedStatement.setString(2, boardDT2.getContent());
