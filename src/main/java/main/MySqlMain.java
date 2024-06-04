@@ -37,11 +37,11 @@ public class MySqlMain {
             // 연결이 성공하면 getConnection() 메소드는 Connection 객체를 리턴
             Connection connection = DriverManager.getConnection(url, username, password);
 
-            System.out.println("connection 성공");
+
 
             // 1. 현재 board 테이블의 내용을 전부 뽑아서
             // 어레이리스트 객체에 추가하고 리스트를 출력
-            ArrayList<BoardDTO> list = new ArrayList<>();
+            ArrayList<BoardDTO> list
             String query = "SELECT * FROM board";
 
             // 위에서 만든 Connection 객체를 통해서 쿼리를 보낼때에는
